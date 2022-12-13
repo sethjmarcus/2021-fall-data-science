@@ -5,13 +5,14 @@ import pandas as pd
 from skimage import io
 from skimage import transform
 
-
+# need to include template folder. this also initializes the app
 app = flask.Flask(__name__, template_folder='templates')
 
 path_to_vectorizer = 'models/vectorizer.pkl'
 path_to_text_classifier = 'models/text-classifier.pkl'
 path_to_image_classifier = 'models/image-classifier.pkl'
 
+# load models
 with open(path_to_vectorizer, 'rb') as f:
     vectorizer = pickle.load(f)
 
@@ -21,7 +22,7 @@ with open(path_to_text_classifier, 'rb') as f:
 with open(path_to_image_classifier, 'rb') as f:
     image_classifier = pickle.load(f)
 
-
+# This is the main page. the decorator does not need to match the method name.
 @app.route('/', methods=['GET', 'POST'])
 def main():
     if flask.request.method == 'GET':
@@ -86,7 +87,9 @@ def input_values():
 
     return(flask.render_template('input_values.html'))
 
-
+# This needs to map to a file in the templates folder.
+# It will then return the enclosed .html file.
+# The decorater and method need to match
 @app.route('/images/')
 def images():
     return flask.render_template('images.html')
